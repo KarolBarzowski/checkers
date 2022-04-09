@@ -4,7 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 extend({ OrbitControls });
 
-const CameraControls = ({ isReset, setIsMoved, isLocked }) => {
+const CameraControls = ({ isReset, setIsMoved, isLocked, isRotate }) => {
   const {
     camera,
     gl: { domElement },
@@ -20,7 +20,7 @@ const CameraControls = ({ isReset, setIsMoved, isLocked }) => {
   }, [isReset]);
 
   useEffect(() => {
-    const handleChange = (e) => {
+    const handleChange = () => {
       setIsMoved(true);
     };
 
@@ -39,9 +39,11 @@ const CameraControls = ({ isReset, setIsMoved, isLocked }) => {
       maxPolarAngle={Math.PI / 2}
       minDistance={8}
       //   minDistance={0}
+      autoRotate={isRotate}
       maxDistance={12}
       enableKeys={false}
       enableDamping
+      enablePan={false}
       dampingFactor={0.1}
       enabled={!isLocked}
     />

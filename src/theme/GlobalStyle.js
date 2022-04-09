@@ -1,6 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
+    * {
+        box-sizing: border-box;
+    }
+
     html {
         font-size: 62.5%;
     }
@@ -14,6 +18,10 @@ const GlobalStyle = createGlobalStyle`
 
     canvas {
         outline: none;
+    }
+
+    span[role=img] {
+        color: #ffffff;
     }
 `;
 

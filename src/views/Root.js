@@ -1,64 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
-import styled from 'styled-components';
-import { Canvas } from 'react-three-fiber';
-import Board from 'components/Board';
-import CameraControls from 'utils/CameraControls';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import Game from 'views/Game';
+import Servers from 'views/Servers';
 import GlobalStyle from 'theme/GlobalStyle';
-
-const ButtonsWrapper = styled.div`
-  position: fixed;
-  top: 1.5rem;
-  right: 1.5rem;
-  z-index: 1;
-`;
-
-const Button = styled.button``;
+import { theme } from 'theme/mainTheme';
 
 function Root() {
-  const [isReset, setIsReset] = useState(0);
-  const [isMoved, setIsMoved] = useState(false);
-  const [isLocked, setIsLocked] = useState(false);
-
-  const handleReset = () => {
-    setIsReset((prevState) => prevState + 1);
-  };
-
-  const handleLock = () => {
-    setIsLocked((prevState) => !prevState);
-  };
-
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Helmet>
         <title>Warcaby</title>
         <meta name="title" content="Warcaby" data-react-helmet="true" />
         <meta name="description" content="Warcaby w 3d" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap"
+          rel="stylesheet"
+        />
       </Helmet>
       <GlobalStyle />
-      <ButtonsWrapper>
-        {isMoved ? (
-          <Button type="button" onClick={handleReset}>
-            Reset
-          </Button>
-        ) : null}
-
-        <Button type="button" onClick={handleLock}>
-          {isLocked ? 'Unlock' : 'Lock'}
-        </Button>
-      </ButtonsWrapper>
-      <Canvas
-        style={{ height: '100vh', width: '100%' }}
-        camera={{
-          position: [0, Math.PI / 2, Math.PI],
-        }}
-      >
-        <CameraControls isReset={isReset} setIsMoved={setIsMoved} isLocked={isLocked} />
-        <ambientLight />
-        <pointLight position={[10, 10, 10]} />
-        <Board />
-      </Canvas>
-    </>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/" exact component={Servers} />
+          <Route path="/:key" component={Game} />
+        </Switch>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
